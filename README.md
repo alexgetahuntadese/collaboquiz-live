@@ -1,16 +1,16 @@
 # Welcome to your Lovable project
- the next top startup from Harar
+
 ## Project info
 
-**URL**: https://lovable.dev/projects/99f92d8f-37a6-4335-a056-b4aa5750c3d2
+**URL**: https://lovable.dev/projects/693813ef-a43c-4f20-a572-478f605f3404
 
 ## How can I edit this code?
-# svally
+
 There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/99f92d8f-37a6-4335-a056-b4aa5750c3d2) and start prompting.
+Simply visit the [Lovable Project](https://lovable.dev/projects/693813ef-a43c-4f20-a572-478f605f3404) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
@@ -62,7 +62,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/99f92d8f-37a6-4335-a056-b4aa5750c3d2) and click on Share -> Publish.
+Simply open [Lovable](https://lovable.dev/projects/693813ef-a43c-4f20-a572-478f605f3404) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
