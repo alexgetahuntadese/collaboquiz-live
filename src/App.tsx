@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import MatricExamPage from "./pages/MatricExamPage";
 import MatricYearPage from "./pages/MatricYearPage";
 import MatricQuizPage from "./pages/MatricQuizPage";
+import RoomPage from "./pages/RoomPage";
 
 const queryClient = new QueryClient();
 
