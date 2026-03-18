@@ -36,7 +36,7 @@ export const StreamProvider = ({ children, userId = 'student1' }: StreamProvider
     const initializeStream = async () => {
       try {
         const selectedUser = DEMO_USERS[userId as keyof typeof DEMO_USERS] || DEMO_USERS.student1;
-        const token = generateToken(selectedUser.id);
+        const token = await generateToken(selectedUser.id);
 
         const streamClient = new StreamVideoClient({
           apiKey: STREAM_API_KEY,
