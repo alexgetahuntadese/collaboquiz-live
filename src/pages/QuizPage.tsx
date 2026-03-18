@@ -28,6 +28,7 @@ import { grade10EconomicsQuestions } from '@/data/grade10EconomicsQuestions';
 
 import QuestionCard from '@/components/QuestionCard';
 import Results from '@/components/Results';
+import InviteFriendButton from '@/components/InviteFriendButton';
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Eye } from 'lucide-react';
