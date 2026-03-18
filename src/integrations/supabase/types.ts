@@ -14,7 +14,86 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      quiz_room_participants: {
+        Row: {
+          correct_answers: number | null
+          id: string
+          is_finished: boolean | null
+          joined_at: string
+          player_name: string
+          room_id: string
+          score: number | null
+          total_questions: number | null
+        }
+        Insert: {
+          correct_answers?: number | null
+          id?: string
+          is_finished?: boolean | null
+          joined_at?: string
+          player_name: string
+          room_id: string
+          score?: number | null
+          total_questions?: number | null
+        }
+        Update: {
+          correct_answers?: number | null
+          id?: string
+          is_finished?: boolean | null
+          joined_at?: string
+          player_name?: string
+          room_id?: string
+          score?: number | null
+          total_questions?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_room_participants_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "quiz_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_rooms: {
+        Row: {
+          created_at: string
+          host_name: string
+          id: string
+          quiz_chapters: string[]
+          quiz_difficulty: string
+          quiz_duration: number
+          quiz_question_count: number
+          quiz_subject: string
+          room_code: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          host_name: string
+          id?: string
+          quiz_chapters?: string[]
+          quiz_difficulty: string
+          quiz_duration?: number
+          quiz_question_count?: number
+          quiz_subject: string
+          room_code: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          host_name?: string
+          id?: string
+          quiz_chapters?: string[]
+          quiz_difficulty?: string
+          quiz_duration?: number
+          quiz_question_count?: number
+          quiz_subject?: string
+          room_code?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
