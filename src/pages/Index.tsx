@@ -9,7 +9,7 @@ import { migrateLocalDataToDb } from "@/lib/dbPerformanceUtils";
 import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
+
 
 const generateStars = (count: number) =>
   Array.from({ length: count }, (_, i) => ({
