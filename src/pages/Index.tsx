@@ -9,7 +9,7 @@ import { migrateLocalDataToDb } from "@/lib/dbPerformanceUtils";
 import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
+
 
 const generateStars = (count: number) =>
   Array.from({ length: count }, (_, i) => ({
@@ -35,17 +35,15 @@ const generateShootingStars = (count: number) =>
 const Index = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { user, signOut } = useAuth();
+  
   const stars = useMemo(() => generateStars(60), []);
   const shootingStars = useMemo(() => generateShootingStars(4), []);
   const recentAttempts = useMemo(() => getRecentAttempts(5), []);
 
   // Migrate local data on first login
   useEffect(() => {
-    if (user) {
-      migrateLocalDataToDb();
-    }
-  }, [user]);
+    migrateLocalDataToDb();
+  }, []);
 
   const testimonials = [
     { name: "Abigail Tesfaye", subject: "Biology", quote: "This app helped me score 95% on my national exam! The practice questions are spot on." },
