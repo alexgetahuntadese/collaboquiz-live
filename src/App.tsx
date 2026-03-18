@@ -50,6 +50,8 @@ const App = () => (
                 <Route path="/matric" element={<ProtectedRoute><MatricExamPage /></ProtectedRoute>} />
                 <Route path="/matric/:year" element={<ProtectedRoute><MatricYearPage /></ProtectedRoute>} />
                 <Route path="/matric/:year/:subject" element={<ProtectedRoute><MatricQuizPage /></ProtectedRoute>} />
+                <Route path="/join/:sessionCode" element={<JoinPage />} />
+                <Route path="/join" element={<JoinPage />} />
                 <Route path="/room/:roomCode" element={<RoomPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
