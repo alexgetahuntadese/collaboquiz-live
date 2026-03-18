@@ -54,7 +54,7 @@ const ProfilePage = () => {
   };
 
   const handleClearData = async () => {
-    if (!user) return;
+    
     localStorage.removeItem('ethioquiz_performance');
     setQuizCount(0);
     toast.success(t('profile.dataCleared'));
