@@ -57,7 +57,7 @@ const ProfilePage = () => {
 
   const handleClearData = async () => {
     if (!user) return;
-    await supabase.from('quiz_attempts').delete().eq('user_id', user.id);
+    localStorage.removeItem('ethioquiz_performance');
     setQuizCount(0);
     toast.success(t('profile.dataCleared'));
   };

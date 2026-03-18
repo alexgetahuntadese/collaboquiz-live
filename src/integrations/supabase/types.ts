@@ -10,83 +10,89 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.1"
+    PostgrestVersion: "14.4"
   }
   public: {
     Tables: {
-      profiles: {
+      quiz_room_participants: {
         Row: {
-          avatar_url: string | null
-          created_at: string | null
+          correct_answers: number | null
           id: string
-          student_name: string | null
-          updated_at: string | null
+          is_finished: boolean | null
+          joined_at: string
+          player_name: string
+          room_id: string
+          score: number | null
+          total_questions: number | null
         }
         Insert: {
-          avatar_url?: string | null
-          created_at?: string | null
-          id: string
-          student_name?: string | null
-          updated_at?: string | null
+          correct_answers?: number | null
+          id?: string
+          is_finished?: boolean | null
+          joined_at?: string
+          player_name: string
+          room_id: string
+          score?: number | null
+          total_questions?: number | null
         }
         Update: {
-          avatar_url?: string | null
-          created_at?: string | null
+          correct_answers?: number | null
           id?: string
-          student_name?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      quiz_attempts: {
-        Row: {
-          attempted_at: string | null
-          chapter: string
-          correct_answers: number
-          difficulty: string
-          grade: string
-          id: string
-          score: number
-          subject: string
-          time_spent: string | null
-          total_questions: number
-          user_id: string
-        }
-        Insert: {
-          attempted_at?: string | null
-          chapter: string
-          correct_answers: number
-          difficulty?: string
-          grade: string
-          id?: string
-          score: number
-          subject: string
-          time_spent?: string | null
-          total_questions: number
-          user_id: string
-        }
-        Update: {
-          attempted_at?: string | null
-          chapter?: string
-          correct_answers?: number
-          difficulty?: string
-          grade?: string
-          id?: string
-          score?: number
-          subject?: string
-          time_spent?: string | null
-          total_questions?: number
-          user_id?: string
+          is_finished?: boolean | null
+          joined_at?: string
+          player_name?: string
+          room_id?: string
+          score?: number | null
+          total_questions?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "quiz_attempts_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "quiz_room_participants_room_id_fkey"
+            columns: ["room_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
+            referencedRelation: "quiz_rooms"
             referencedColumns: ["id"]
           },
         ]
+      }
+      quiz_rooms: {
+        Row: {
+          created_at: string
+          host_name: string
+          id: string
+          quiz_chapters: string[]
+          quiz_difficulty: string
+          quiz_duration: number
+          quiz_question_count: number
+          quiz_subject: string
+          room_code: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          host_name: string
+          id?: string
+          quiz_chapters?: string[]
+          quiz_difficulty: string
+          quiz_duration?: number
+          quiz_question_count?: number
+          quiz_subject: string
+          room_code: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          host_name?: string
+          id?: string
+          quiz_chapters?: string[]
+          quiz_difficulty?: string
+          quiz_duration?: number
+          quiz_question_count?: number
+          quiz_subject?: string
+          room_code?: string
+          status?: string
+        }
+        Relationships: []
       }
     }
     Views: {

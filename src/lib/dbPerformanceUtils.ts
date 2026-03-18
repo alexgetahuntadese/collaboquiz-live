@@ -15,20 +15,18 @@ export const saveQuizAttemptToDb = async (attempt: {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data, error } = await supabase
-    .from('quiz_attempts')
-    .insert({
-      user_id: user.id,
-      ...attempt,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error saving quiz attempt:', error);
+  // quiz_attempts table not yet created - store in localStorage fallback
+  try {
+    const key = 'ethioquiz_performance';
+    const stored = localStorage.getItem(key);
+    const data = stored ? JSON.parse(stored) : { attempts: [] };
+    data.attempts.push({ ...attempt, user_id: user.id, attempted_at: new Date().toISOString() });
+    localStorage.setItem(key, JSON.stringify(data));
+    return attempt;
+  } catch (e) {
+    console.error('Error saving quiz attempt:', e);
     return null;
   }
-  return data;
 };
 
 // Get quiz attempts from database
@@ -36,20 +34,17 @@ export const getQuizAttemptsFromDb = async (limit?: number) => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return [];
 
-  let query = supabase
-    .from('quiz_attempts')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('attempted_at', { ascending: false });
-
-  if (limit) query = query.limit(limit);
-
-  const { data, error } = await query;
-  if (error) {
-    console.error('Error fetching quiz attempts:', error);
+  try {
+    const key = 'ethioquiz_performance';
+    const stored = localStorage.getItem(key);
+    if (!stored) return [];
+    const data = JSON.parse(stored);
+    const attempts = (data.attempts || []).filter((a: any) => a.user_id === user.id);
+    return limit ? attempts.slice(0, limit) : attempts;
+  } catch (e) {
+    console.error('Error fetching quiz attempts:', e);
     return [];
   }
-  return data || [];
 };
 
 // Get user profile from database
@@ -57,77 +52,33 @@ export const getProfileFromDb = async () => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
-
-  if (error) {
-    console.error('Error fetching profile:', error);
+  try {
+    const key = 'ethioquiz_profile';
+    const stored = localStorage.getItem(key);
+    if (!stored) return { student_name: user.email?.split('@')[0] || '' };
+    return JSON.parse(stored);
+  } catch (e) {
+    console.error('Error fetching profile:', e);
     return null;
   }
-  return data;
 };
 
 // Update user profile
 export const updateProfileInDb = async (updates: { student_name?: string; avatar_url?: string }) => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data, error } = await supabase
-    .from('profiles')
-    .update({ ...updates, updated_at: new Date().toISOString() })
-    .eq('id', user.id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error updating profile:', error);
+  try {
+    const key = 'ethioquiz_profile';
+    const stored = localStorage.getItem(key);
+    const profile = stored ? JSON.parse(stored) : {};
+    const updated = { ...profile, ...updates, updated_at: new Date().toISOString() };
+    localStorage.setItem(key, JSON.stringify(updated));
+    return updated;
+  } catch (e) {
+    console.error('Error updating profile:', e);
     return null;
   }
-  return data;
 };
 
-// Migrate localStorage data to database
+// Migrate localStorage data to database (no-op for now)
 export const migrateLocalDataToDb = async () => {
-  const STORAGE_KEY = 'ethioquiz_performance';
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (!stored) return;
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
-
-  try {
-    const localData = JSON.parse(stored);
-    const attempts = localData.attempts || [];
-
-    if (attempts.length === 0) return;
-
-    // Insert all local attempts
-    const rows = attempts.map((a: any) => ({
-      user_id: user.id,
-      grade: a.grade || 'Unknown',
-      subject: a.subject || 'Unknown',
-      chapter: a.chapter || 'Unknown',
-      difficulty: a.difficulty || 'medium',
-      score: a.score || 0,
-      correct_answers: a.correct_answers || 0,
-      total_questions: a.total_questions || 0,
-      time_spent: a.time_spent || '',
-      attempted_at: a.attempted_at || new Date().toISOString(),
-    }));
-
-    const { error } = await supabase.from('quiz_attempts').insert(rows);
-    if (!error) {
-      // Update profile name if set locally
-      if (localData.profile?.student_name) {
-        await updateProfileInDb({ student_name: localData.profile.student_name });
-      }
-      localStorage.removeItem(STORAGE_KEY);
-      console.log('Migrated local data to database');
-    }
-  } catch (e) {
-    console.error('Migration error:', e);
-  }
+  // Will be implemented when quiz_attempts and profiles tables are created
 };

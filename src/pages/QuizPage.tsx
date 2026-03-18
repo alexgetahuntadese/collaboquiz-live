@@ -28,6 +28,7 @@ import { grade10EconomicsQuestions } from '@/data/grade10EconomicsQuestions';
 
 import QuestionCard from '@/components/QuestionCard';
 import Results from '@/components/Results';
+import InviteFriendButton from '@/components/InviteFriendButton';
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Eye } from 'lucide-react';
@@ -595,7 +596,14 @@ const QuizPage = () => {
             <div className="text-sm text-white/40">
               Question {currentQuestionIndex + 1} of {questions.length}
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
+              <InviteFriendButton
+                subject={subject}
+                chapter={chapterId}
+                difficulty={difficulty}
+                grade={grade}
+                playerName=""
+              />
               {!revealedAnswers.has(currentQuestionIndex) && (
                 <Button
                   onClick={handleShowAnswer}
