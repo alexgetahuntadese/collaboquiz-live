@@ -35,10 +35,17 @@ const AuthPage = () => {
     try {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if (error) {
+          if (error.message === 'Email not confirmed') {
+            toast.error('Please check your email and confirm your account before signing in.');
+            return;
+          }
+          throw error;
+        }
         toast.success('Welcome back!');
+        navigate('/');
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -47,9 +54,16 @@ const AuthPage = () => {
           },
         });
         if (error) throw error;
-        toast.success('Account created! You are now signed in.');
+        
+        // Check if user session was created (auto-confirmed) or needs email confirmation
+        if (data.session) {
+          toast.success('Account created! You are now signed in.');
+          navigate('/');
+        } else {
+          toast.success('Account created! Please check your email to confirm your account, then sign in.');
+          setIsLogin(true);
+        }
       }
-      navigate('/');
     } catch (error: any) {
       toast.error(error.message || 'Authentication failed');
     } finally {
