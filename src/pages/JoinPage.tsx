@@ -1,6 +1,6 @@
 import { useState } from "react";
 import StarField from '@/components/StarField';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,7 +13,8 @@ const JoinPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [sessionCode, setSessionCode] = useState("");
+  const { sessionCode: codeFromUrl } = useParams();
+  const [sessionCode, setSessionCode] = useState(codeFromUrl?.toUpperCase() || "");
   const [playerName, setPlayerName] = useState("");
   const [isJoining, setIsJoining] = useState(false);
 
